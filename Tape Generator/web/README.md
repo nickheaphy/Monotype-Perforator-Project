@@ -2,4 +2,5 @@
 
 This is a much nicer web based tape generator.
 
-Still a work in progress!
+See it in action at [http://nicnak.net/monotype/](http://nicnak.net/monotype/)
+

@@ -67,3 +67,7 @@ This is useful at the beginning and end of the tape so you can remove it from th
 Any line that does not begin with either `|` or `**` is ignored.
 
 Any characters between the final `|` and the newline is ignored.
+
+## Sending data to the microcontroller
+
+When you connect the microcontroller to the computer it acts as a serial device. You can send the virtual tape to the microcontroller using a terminal emulator, Python or the GUI wrapper as part of this project.
