@@ -1,0 +1,94 @@
+# Layout 161
+# Modified MCA for Garamond 157
+# Layout 161 Roman italic + smallcpas
+# Bold removed
+
+# Wedge 536
+
+# Refer layout161-modified_for_garamond_157.jpg
+
+# Columns should only contain a single character and optionally
+# a style (maximum of two characters). Optionally the Special characters
+# for multiple characters like ligatures (but can use UTF8 characters
+# if you want (it just looks messy :-))
+
+# i denotes italic
+# s denotes small caps
+# b denotes bold
+# But the style could be anything (eg could be numbers
+# to indicate different fonts on same Matrix)
+
+# .. indicates no character (or to be override)
+
+# Case layout should have three spaces
+# First one is justifying space ¤ ( UTF8U+00A4 Currency Sign)
+# Second is an em-quad ▌ (UTF8 U+258C Left half block)
+# Third is a quad (one last row) █ (UTF8 U+2588 Full Block)
+
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+1  :  `  '  ii ji li j  i  l  .  ,  .. .. ;  !
+2  ~  fi ci ti ei Is t  ¤  f  :i ;i ]  [  )  (
+3  Ii yi vi gi ri si oi s  r  I  Js Ss !i ?  ?i
+4  Ji qi bi hi di ni ui ai e  a  c  z  Ps .. ..
+5  .. ki pi Ys Ls Bs J  ▌  -  *  1  2  3  4  5
+6  .. zi Zs Ts Fs Es x  y  .. .. 6  7  8  9  0
+7  Si xi Vs Cs Us S  n  o  b  g  q  .. .. .. /
+8  .. Xs Qs Rs As Os h  u  d  p  k  v  t  .. ..
+9  Ks Gs Ds Ns F  P  .. .. .. .. .. .. .. .. ..
+10 Zi Ki Bi Pi Fi Ti Oi wi B  C  L  Hs Ms .. $ 
+11 .. Yi Ci Li Ri Ui mi E  T  R  Z  .. .. .. ..
+12 Y  V  U  A  Ws w  .. .. .. .. .. .. .. .. ..
+13 Gi .. Q  K  G  H  N  m  O  D  .. .. .. .. ..
+14 Qi Xi Vi Di Hi Mi Ni Ai Ei M  X  .. .. .. ..
+15 .. &i .. .. Wi .. W  █  .. &  .. .. %  .. ..  
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+
+# Special Characters/Ligatures (overrides for above)
+# Case Position | Glyph | style modifier
+# http://www.fileformat.info/info/charset/UTF-8/list.htm
+# https://en.wikipedia.org/wiki/Orthographic_ligature 
+# Common: fl = ﬂ ffi = ﬃ fi = ﬁ ff = ﬀ AE = Æ CE = Œ st = ﬆ
+# Section Sign § Pilcrow Sign ¶ Diesis ‡ Dagger †
+# ‡ œ æ ➕ ⸺ ‥ … ﬄ
+
+N4 §
+A5 ﬂ i
+A6 ﬁ i
+L7 ﬀ
+M7 ﬁ
+N7 ﬂ
+A8 ﬀ i
+N10 ﬆ
+A11 ﬃ i
+M11 œ
+M12 ﬄ
+N12 Æ s
+B13 ﬃ
+N13 Œ s
+C15 Œ i
+D15 Æ i
+F15 Æ
+I15 Œ
+K15 ⸺
+L15 …
+N15 ‥
+# The ct ligature does not exit in unicode
+# Using latin c with caron to represent
+N13 č
+
+# Commas and quotes
+# Standard quote mark left
+B1 '
+# Quote mark right
+C1 ‘
+
+# Missing characters
+# These are characters that don't appear in unicode
+# Or I can't read from the layout documents
+# I6 . but this is also at J1
+# N11 ct ligature, does not exist in unicode
+# A15 can't read
+
+# Unit Shift Positions (for 16x17 cases)
+# These should be labeled like:
+# _ A5

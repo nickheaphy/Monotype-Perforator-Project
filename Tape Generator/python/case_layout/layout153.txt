@@ -1,0 +1,70 @@
+# Layout No 153 Six-Alphabet
+# Matrix Case Arrangement No 1721
+# For Seres 174 and 201 - 8 to 12 Point
+
+# Wedge IO
+# Units
+# 5,6,7,8,9,9,10,10,11,12,13,14,15,17,19
+
+# Columns should only contain a single character and optionally
+# a style (maximum of two characters). Optionaly the Special characters
+# for multiple characters like ligatures (but can use UTF8 characters
+# if you want (it just looks messy :-))
+
+# i denotes italic
+# s denotes small caps
+# b denotes bold
+# But the style could be anything (eg could be numbers
+# to indicate different fonts on same Matrix)
+
+# .. indicates no character (or to be override)
+
+# Case layout should have three spaces
+# First one is justifing space ¤ ( UTF8U+00A4 Currency Sign)
+# Second is an em-quad ▌ (UTF8 U+258C Left half block)
+# Third is a quad (one last row) █ (UTF8 U+2588 Full Block)
+
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+1  '  '  ,  .  ji li ii ¤  i  l  j  :  ;  .b ,b
+2  (  )  -  fi ti ci ei ▌  f  t  ib lb fb tb jb
+3  ?  vi yi gi ri si oi I  r  s  Ib rb -b ?b (b
+4  Ji Ii qi di bi hi ni ai ui e  a  c  z  Jb sb
+5  1  2  3  4  5  pi y  ▌  ab cb 1b 2b 3b 4b 5b
+6  6  7  8  9  0  zi x  J  eb zb 6b 7b 8b 9b 0b
+7  .. ki .. S  q  k  d  u  h  p  Sb yb xb .. ..
+8  .. Si .. .. v  g  Bb o  n  u  ob vb *  .. ..
+9  xi wi F  P  kb gb nb ub hb db bb pb qb .. ..
+10 .. Zi Qi Pi Bi Ti L  C  B  .. .. $  Pb Fb ..
+11 Yi Ki Li Fi Ci Oi mi E  R  T  Z  Bb Cb Lb Zb
+12 Ri Y  V  U  A  w  Ab Eb Rb Gb Kb Tb Vb Yb Xb
+13 .. Q  X  K  G  H  D  m  O  N  wb Ob Ub Db Qb
+14 Xi Vi Hi Di Gi Ni Ui Ei Ai M  mb Nb Hb .. &
+15 .. -  Mi Wi .. .. W  █  Mb Wb .. .. .. .. -b
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+
+# Special Characters/Ligatures (overides for above)
+# Case Position | Glyph | style modifier
+# http://www.fileformat.info/info/charset/UTF-8/list.htm
+# Common: fl = ﬂ ffi = ﬃ fi = ﬁ ff = ﬀ AE = Æ CE = Œ
+
+A7 æ
+C7 ﬁ
+N7 †
+O7 † b
+A8 ﬀ i
+C8 ﬂ
+D8 ﬀ
+O8 §
+N9 ﬁ b
+O9 ﬀ b
+A13 ﬃ
+N14 ﬃ b
+E15 Œ
+N15 Œ b
+F15 Æ
+M15 Æ b
+
+
+# Unit Shift Positions (for 16x17 cases)
+# These should be labeled like:
+# _ A5

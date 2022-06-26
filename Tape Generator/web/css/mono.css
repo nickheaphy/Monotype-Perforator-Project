@@ -1,0 +1,46 @@
+#matrixcase {
+    border-collapse: collapse;
+    table-layout: fixed;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#matrixcase td {
+    border: 1px solid black;
+    max-width: 40px;
+    text-overflow: clip;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#matrixcase, #matrixcase th, #matrixcase td {
+    width : 40px;
+    height : 40px;
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cebebe;
+  color: #666666;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #666666;
+    background-color: #cebebe;
+    border-color: #999999;
+}
+
+#tapeerror {
+    display: none;
+}
+
+.unit {
+    font-style: italic;
+}
+
+.unit_title {
+    font-style: italic;
+    font-size: xx-small;
+}

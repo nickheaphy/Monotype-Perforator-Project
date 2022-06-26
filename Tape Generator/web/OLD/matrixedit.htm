@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mono.css" rel="stylesheet">
+
+    <title>Hello, world!</title>
+
+    <script>
+        // pure javascript
+        var caseexample;
+        let httpRequest = new XMLHttpRequest(); // asynchronous request
+        httpRequest.open("GET", "caseexample.json", true);
+        httpRequest.send();
+        httpRequest.addEventListener("readystatechange", function() {
+            if (this.readyState === this.DONE) {
+                // when the request has completed
+                caseexample = JSON.parse(this.response);
+                fixProperties(caseexample);
+                generateTable(document.getElementById("matrixcase"), caseexample);
+            }
+        });
+    </script>
+
+  </head>
+  <body>
+    <table id="matrixcase"></table>
+    
+    <div class="modal fade" id="matrixModal" tabindex="-1" aria-labelledby="matrixModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="matrixModalLabel">Edit Matrix Item</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                    <label for="matrixpos" class="col-form-label">Matrix Position:</label>
+                    <input type="text" class="form-control" id="matrixpos" disabled>
+                </div>
+                <div class="mb-3">
+                  <label for="character" class="col-form-label">Character:</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="character">
+                    <button onClick="window.open('https://unicode-table.com/en/');" class="btn btn-outline-secondary" type="button" for="character">UniCode</button>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="charstyle" id="charstyle1" checked>
+                            <label class="form-check-label" for="charstyle1">
+                                Roman
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="charstyle" id="charstyle2">
+                            <label class="form-check-label" for="charstyle2">
+                                Italic
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="charstyle" id="charstyle3">
+                            <label class="form-check-label" for="charstyle3">
+                                Small Caps
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="charweight" id="charweight1" checked>
+                            <label class="form-check-label" for="charweight1">
+                                Normal
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="charweight" id="charweight2">
+                            <label class="form-check-label" for="charweight2">
+                                Bold
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                  <label for="description-text" class="col-form-label">Description:</label>
+                  <textarea class="form-control" id="description-text"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="matrixSaveButton">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="unitModal" tabindex="-1" aria-labelledby="unitModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="unitModalLabel">Edit Unit</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="mb-3">
+                    <label for="rowpos" class="col-form-label">Row Position:</label>
+                    <input type="text" class="form-control" id="rowpos" disabled>
+                </div>
+                <div class="mb-3">
+                  <label for="units" class="col-form-label">Units:</label>
+                  <input type="text" class="form-control" id="units">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="unitSaveButton">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script>
+
+        // Ensure that we have a 15x15 array
+        // This is a bit rude as you can have larger matrix cases, but at the moment only
+        // concerned with 15x15 (this will probably bite me later)
+        function fixProperties(data) {
+            for (let i = 0; i < 15; i++) {
+                try {
+                    var rows = data.rows[i];
+                
+                    for (let j = 0; j < 15; j++) {
+                        try {
+                            var column = rows.columns[0][j]
+                        } catch {
+                            var column = {}
+                            rows.columns.push(column)
+                        }
+                    }
+                } catch {
+                    var rows = {
+                        "row": i+1,
+                        columns : [{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]
+                    }
+                    data.rows.push(rows)
+                }
+            }
+            console.log(data);
+        }
+
+        // Get the properties in the data at the position
+        // postion is formatted like A13 (letter, number)
+        function getProperties(data, position) {
+            let splitpos = position.split(/(\d+)/)
+            let col = splitpos[0].charCodeAt(0)-65
+            // now splitpos[0] will be the column and splitpos[1] will be the row
+            try {
+                var chardata = data.rows[splitpos[1]-1].columns[col]
+            }
+            catch {
+                var chardata = {
+                    "character" : "",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : ""
+                }
+            }
+            return chardata;
+        }
+
+        // handle the clicks on the Matrix
+        function clickMatrixHandler() {
+            // Here, `this` refers to the element the event was hooked on
+            var td = event.target;
+            var myModal = new bootstrap.Modal(document.getElementById('matrixModal'))
+            myModal.show(this);
+        }
+
+        // handle the clicks on the Unit
+        function clickUnitHandler() {
+            var myModal = new bootstrap.Modal(document.getElementById('unitModal'))
+            myModal.show(this);
+        }
+
+        // save the data back into the dictionary
+        function setProperties(data, position, update) {
+            let splitpos = position.split(/(\d+)/);
+            let col = splitpos[0].charCodeAt(0)-65;
+            
+            update["column"] = col+1
+            update["columnname"] = splitpos[0]
+            
+            data.rows[splitpos[1]-1].columns[col] = update;
+            
+            bootstrap.Modal.getInstance(document.getElementById('matrixModal')).hide();
+            document.getElementById("matrixcase").innerHTML = '';
+            generateTable(document.getElementById("matrixcase"), caseexample);
+        }
+
+        // save the data back into the dictionary
+        function setUnitProperties(data, row, units) {
+            console.log(units)
+            console.log(row)
+            data.units[0][row] = units;
+
+            bootstrap.Modal.getInstance(document.getElementById('unitModal')).hide();
+            document.getElementById("matrixcase").innerHTML = '';
+            generateTable(document.getElementById("matrixcase"), caseexample);
+        }
+
+        // builds the table from the data dictionary
+        function generateTable(table, data) {
+            for (let i=0; i < 17; i++) {
+                let row = table.insertRow();
+                
+                for (let j=0; j < 17; j++) {
+                    if (i == 0 || i == 16 || j == 0 || j == 16) {
+                        var coltype = document.createElement("th");
+                    } else {
+                        var coltype = document.createElement("td");
+                    }
+
+                    if (i == 0 || i == 16) {
+                        if (j > 0 && j < 16) {
+                            var text = document.createTextNode(String.fromCharCode(65+j-1))
+                        } else {
+                            var text = document.createTextNode("")
+                        }
+                    } else if (j == 16) {
+                        var text = document.createTextNode(i)
+                    } else if (j == 0) {
+                        var text = document.createTextNode(data.units[0][i])
+                        coltype.id = "unit" + i
+                        coltype.addEventListener("click", clickUnitHandler);
+                    } else {
+                        nodeid = String.fromCharCode(65+j-1) + i
+                        chardata = getProperties(data, nodeid)
+                        if (chardata.character === undefined) {
+                            var text = document.createTextNode("")
+                        } else {
+                            var text = document.createTextNode(chardata.character)
+                        }
+                        if (chardata.style == "italic") {
+                            coltype.style.fontStyle = "italic";
+                        } else if (chardata.style == "smallcap") {
+                            coltype.style.fontVariant = "small-caps";
+                        }
+                        if (chardata.weight == "bold") {
+                            coltype.style.fontWeight = "bold";
+                        }
+                        coltype.id = nodeid;
+                        coltype.addEventListener("click", clickMatrixHandler);
+                    }
+                    coltype.appendChild(text);
+                    row.appendChild(coltype);
+                }
+            }
+        }
+
+        //generateTable(document.getElementById("matrixcase"), caseexample);
+        
+        
+
+        // setup the event listeners
+        var matrixModalEl = document.getElementById('matrixModal')
+        // when the dialog is shown, update the display to reflect what was clicked
+        matrixModalEl.addEventListener('show.bs.modal', function (event) {
+            var td = event.relatedTarget;
+            var id = td.getAttribute('id');
+            var chardata = getProperties(caseexample, id);
+            matrixModal.querySelector('#matrixpos').value = id
+            if (chardata.character !== undefined) {
+                matrixModal.querySelector('#character').value = chardata.character
+            }
+            if (chardata.desc !== undefined) {
+                matrixModal.querySelector('#description-text').value = chardata.desc
+            }
+            if (chardata.style == "italic") {
+                matrixModal.querySelector('#charstyle2').checked = true;
+                console.log(chardata.style)
+            } else if (chardata.style == "smallcap") {
+                matrixModal.querySelector('#charstyle3').checked = true;
+            } else {
+                matrixModal.querySelector('#charstyle1').checked = true;
+            }
+            if (chardata.weight == "bold") {
+                matrixModal.querySelector('#charweight2').checked = true;
+            } else {
+                matrixModal.querySelector('#charweight1').checked = true;
+            }
+        });
+
+        var unitModalEl = document.getElementById('unitModal')
+        // when the dialog is shown, update the display to reflect what was clicked
+        unitModalEl.addEventListener('show.bs.modal', function (event) {
+            var td = event.relatedTarget;
+            var id = td.getAttribute('id');
+            var row = id.split(/(\d+)/)[1]
+            unitModal.querySelector('#rowpos').value = row
+            unitModal.querySelector('#units').value = caseexample.units[0][row]
+        });
+
+        var modelMatrixSaveButton = document.getElementById('matrixSaveButton');
+        modelMatrixSaveButton.addEventListener("click", function (event) {
+            var charpos = matrixModal.querySelector('#matrixpos').value;
+            var updatedata = {};
+            updatedata["character"] = matrixModal.querySelector('#character').value;
+            updatedata["desc"] = matrixModal.querySelector('#description-text').value;
+            if (matrixModal.querySelector('#charstyle2').checked) {
+                updatedata["style"] = "italic";
+            } else if (matrixModal.querySelector('#charstyle3').checked) {
+                updatedata["style"] = "smallcap";
+            } else {
+                updatedata["style"] = "roman";
+            }
+            if (matrixModal.querySelector('#charweight2').checked) {
+                updatedata["weight"] = "bold";
+            } else {
+                updatedata["weight"] = "";
+            }
+            setProperties(caseexample, charpos, updatedata);
+        });
+
+        var modelUnitSaveButton = document.getElementById('unitSaveButton');
+        modelUnitSaveButton.addEventListener("click", function (event) {
+            var row = unitModal.querySelector('#rowpos').value;
+            var units = unitModal.querySelector('#units').value;
+            setUnitProperties(caseexample, row, units);
+        });
+    </script>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

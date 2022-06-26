@@ -1,0 +1,126 @@
+# Layout No 32 Five-Alphabet
+# Matrix Case Arrangement No 1364
+# For Seres 156
+
+# Wedge 536
+
+# Refer layout32.jpg
+
+# Columns should only contain a single character and optionally
+# a style (maximum of two characters). Optionally the Special characters
+# for multiple characters like ligatures (but can use UTF8 characters
+# if you want (it just looks messy :-))
+
+# i denotes italic
+# s denotes small caps
+# b denotes bold
+# But the style could be anything (eg could be numbers
+# to indicate different fonts on same Matrix)
+
+# .. indicates no character (or to be override)
+
+# Case layout should have three spaces
+# First one is justifying space ¤ ( UTF8U+00A4 Currency Sign)
+# Second is an em-quad ▌ (UTF8 U+258C Left half block)
+# Third is a quad (one last row) █ (UTF8 U+2588 Full Block)
+
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+1  'i '  ‘  ji li ii l  .. i  j  ,  .  :  ;  !
+2  ]  [  Is ti fi ei ci ¤  f  t  -  si :i )  (
+3  Js Ss Ii yi gi ;i oi vi ri s  r  I  ?  !i ?i
+4  ‘i Ps Ji qi ni ui a  e  c  z  ai hi di bi § 
+5  *  Ys Bs Ts Ls .. pi ▌  x  6  7  8  9  .. .
+6  .. Zs Es Fs .. zi J  y  1  2  3  4  5  0  ..
+7  Qs Xs Us Vs As Si ki o  u  b  v  q  k  .. /
+8  .. Qs Rs Cs Os .. S  p  g  d  h  n  .. .. æi
+9  .. Ks Ns Ds Gs Bi xi wi vi F  P  .. .. .. ..
+10 .. .. ¶  Hs Ms Pi L  C  B  Zi £  $  .. .. ..
+11 Ki Ti Fi Ci Oi .. .. mi E  T  R  Z  .. .. ..
+12 .. Ws Qi Yi Ui Ri Gi Li Ei w  A  U  V  Y  ..
+13 .. Xi Di Hi .. .. H  m  O  D   G  N  X  Q  K
+14 .. .. .. .. Ni Vi Mi M  Ai &  .. .. .. .. ..
+15 .. .. @  &i .. .. Wi █  W  .. .. .. .. .. ..
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+
+# Special Characters/Ligatures (overrides for above)
+# Case Position | Glyph | style modifier
+# http://www.fileformat.info/info/charset/UTF-8/list.htm
+# https://en.wikipedia.org/wiki/Orthographic_ligature 
+# Common: fl = ﬂ ffi = ﬃ fi = ﬁ ff = ﬀ AE = Æ CE = Œ st = ﬆ
+# Section Sign § Pilcrow Sign ¶ Diesis ‡
+# Hyphen-Minus - / Small Hyphen-Minus ﹣ / Fullwidth Hyphen-Minus －
+# Fullwidth full stop ．
+
+N5 －
+O5 ．
+O4 §
+M10 ﬆ
+F5 ﬁ i
+A6 œ i
+E6 ﬂ i
+N7 ﬂ
+F8 ﬀ i
+M8 ﬀ
+N8 ﬁ
+O8 æ i
+O9 †
+A9 ‡
+L9 æ
+M9 ﬆ i
+F11 ﬄ i
+G11 ﬃ i
+N11 œ
+A12 Æ s
+A13 Œ s
+E13 ﬄ
+F13 ﬃ
+A15 ➕
+E15 Œ i
+F15 Æ i
+J15 Æ
+K15 Œ
+L15 ⸺
+M15 ‥
+N15 …
+# The ct ligature does not exit in unicode
+# Using latin c with caron to represent
+M11 č
+# The sp with macron does not exist in unicode
+# Using latin s with caron to represent
+O12 š
+
+
+# Commas and quotes
+# Standard quote mark left
+B1 '
+# Quote mark right
+C1 ‘
+# Standard quote mark left - small caps
+A1 ' s
+# Quote mark right - small caps
+A4 ‘ s
+
+# Missing characters
+# These are characters that don't appear in unicode
+# Or I can't read from the layout documents
+
+# O6 'is' italic ligature, no unicode representation of this
+# A10 u with underscore, second part of Qu
+# N12 can't read
+# O11 'as' italic ligature
+# N9 'fr' italic ligature
+
+# TODO - need some way of storing the ligatures and when
+# to use them (ie a table for replacements)
+# Maybe LIG SearchTerm Style MCAcordordinate #Comment
+# LIG is i O6 #is italic
+# LIG as i O11 #as italic
+# LIG fr i N9 #fr italic
+# LIG QU s A7A8 #Qu with the tail of Q under U 
+# LIG fi i F5 #ﬁ italic
+
+
+
+# Unit Shift Positions (for 16x17 cases)
+# These should be labeled like:
+# _ A5

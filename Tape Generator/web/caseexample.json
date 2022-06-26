@@ -1,0 +1,278 @@
+{
+    "title": "Layout No. 32. Five-Alphabet",
+    "description0": "For Series 156",
+    "description1" : "Matrix-case Arrangement No. 1364",
+    "description2" : "",
+    "wedge" : "536",
+    "jspace-row": 2,
+    "jspace-column": "H",
+    "units" : {
+            "1" : 5,
+            "2" : 6,
+            "3" : 7,
+            "4" : 8,
+            "5" : 9,
+            "6" : 9,
+            "7" : 10,
+            "8" : 10,
+            "9" : 11,
+            "10" : 12,
+            "11" : 13,
+            "12" : 14,
+            "13" : 15,
+            "14" : 17,
+            "15" : 18
+    },
+    "rows" : [
+        {
+            "row" : 1,
+            "columns" : [
+                {
+                    "column" : 1,
+                    "columnname" : "A",
+                    "character" : "'",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : ""
+                },
+                {
+                    "column" : 2,
+                    "columnname" : "B",
+                    "character" : "'",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : ""
+                },
+                {
+                    "column" : 3,
+                    "columnname" : "C",
+                    "character" : "'",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : ""
+                },
+                {
+                    "column" : 4,
+                    "columnname" : "D",
+                    "character" : "j",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic j"
+                },
+                {
+                    "column" : 5,
+                    "columnname" : "E",
+                    "character" : "l",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic l"
+                },
+                {
+                    "column" : 6,
+                    "columnname" : "F",
+                    "character" : "i",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic i"
+                },
+                {
+                    "column" : 7,
+                    "columnname" : "G",
+                    "character" : "l",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Lower case roman l"
+                },
+                {
+                    "column" : 8,
+                    "columnname" : "H",
+                    "character" : " ",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "space"
+                },
+                {
+                    "column" : 9,
+                    "columnname" : "I",
+                    "character" : "i",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Lower case i"
+                },
+                {
+                    "column" : 10,
+                    "columnname" : "J",
+                    "character" : "j",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Lower case j"
+                },
+                {
+                    "column" : 11,
+                    "columnname" : "K",
+                    "character" : ",",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Comma"
+                },
+                {
+                    "column" : 12,
+                    "columnname" : "L",
+                    "character" : ".",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Fullstop"
+                },
+                {
+                    "column" : 13,
+                    "columnname" : "M",
+                    "character" : ":",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Colon"
+                },
+                {
+                    "column" : 14,
+                    "columnname" : "N",
+                    "character" : ";",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Semi-colon"
+                },
+                {
+                    "column" : 15,
+                    "columnname" : "O",
+                    "character" : "!",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Exclamation Mark"
+                }
+            ]
+        },
+        {
+            "row" : 2,
+            "columns" : [
+                {
+                    "column" : 1,
+                    "columnname" : "A",
+                    "character" : "]",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Close square bracket ]"
+                },
+                {
+                    "column" : 2,
+                    "columnname" : "B",
+                    "character" : "[",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Open square bracket ["
+                },
+                {
+                    "column" : 3,
+                    "columnname" : "C",
+                    "character" : "I",
+                    "style" : "smallcap",
+                    "weight" : "",
+                    "desc" : "Small Cap I"
+                },
+                {
+                    "column" : 4,
+                    "columnname" : "D",
+                    "character" : "t",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic t"
+                },
+                {
+                    "column" : 5,
+                    "columnname" : "E",
+                    "character" : "f",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic f"
+                },
+                {
+                    "column" : 6,
+                    "columnname" : "F",
+                    "character" : "e",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic e"
+                },
+                {
+                    "column" : 7,
+                    "columnname" : "G",
+                    "character" : "c",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic c"
+                },
+                {
+                    "column" : 8,
+                    "columnname" : "H",
+                    "character" : " ",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Justification space"
+                },
+                {
+                    "column" : 9,
+                    "columnname" : "I",
+                    "character" : "f",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Lower case f"
+                },
+                {
+                    "column" : 10,
+                    "columnname" : "J",
+                    "character" : "t",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Lower case t"
+                },
+                {
+                    "column" : 11,
+                    "columnname" : "K",
+                    "character" : "-",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Hyphen"
+                },
+                {
+                    "column" : 12,
+                    "columnname" : "L",
+                    "character" : "s",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Lower case italic s"
+                },
+                {
+                    "column" : 13,
+                    "columnname" : "M",
+                    "character" : ":",
+                    "style" : "italic",
+                    "weight" : "",
+                    "desc" : "Italic Colon"
+                },
+                {
+                    "column" : 14,
+                    "columnname" : "N",
+                    "character" : ")",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Close bracket )"
+                },
+                {
+                    "column" : 15,
+                    "columnname" : "O",
+                    "character" : "(",
+                    "style" : "roman",
+                    "weight" : "",
+                    "desc" : "Open bracket ("
+                }
+            ]
+        }
+    ]
+}

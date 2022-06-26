@@ -1,0 +1,66 @@
+# Layout No 161 Seven-Alphabet
+# Matrix Case Arrangement No 1746
+# For Seres 156 and 201
+
+# Wedge IO
+
+# Refer http://www.alembicpress.co.uk/Typecaster/layouts.htm
+# http://www.alembicpress.co.uk/Layouts/gara15.jpg
+
+# Columns should only contain a single character and optionally
+# a style (maximum of two characters). Optionaly the Special characters
+# for multiple characters like ligatures (but can use UTF8 characters
+# if you want (it just looks messy :-))
+
+# i denotes italic
+# s denotes small caps
+# b denotes bold
+# But the style could be anything (eg could be numbers
+# to indicate different fonts on same Matrix)
+
+# .. indicates no character (or to be override)
+
+# Case layout should have three spaces
+# First one is justifing space ¤ ( UTF8U+00A4 Currency Sign)
+# Second is an em-quad ▌ (UTF8 U+258C Left half block)
+# Third is a quad (one last row) █ (UTF8 U+2588 Full Block)
+
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+1  :  `  '  ii ji li j  i  l  .  ,  .b ,b 'b :b
+2  -  fi ci ti ei Is t  ¤  f  ib lb fb tb jb (
+3  Ii yi vi gi ri si oi s  r  I  Js Ss rb Ib -b
+4  Ji qi bi hi di ni ui ai e  a  c  z  Ps sb Jb
+5  .. ki pi Ys Ls Bs J  ▌  eb zb 1  2  3  4  5
+6  .. zi Zs Ts Fs Es x  y  ab cb 6  7  8  9  0
+7  Si xi Vs Cs Us S  n  o  b  g  q  .. .. vb yb
+8  .. Xs  Qs Rs As Os h  u  d  p  k  v  ob xb Sb
+9  Ks Gs Ds Ns F  P  nb ub hb db bb gb pb kb qb
+10 Zi Ki Bi Pi Fi Ti Oi wi B  C  L  Hs Ms Fb Pb 
+11 .. Yi Ci Li Ri Ui mi E  T  R  Z  Bb Cb Lb Zb
+12 Y  V  U  A  Ws w  Ab Eb Rb Tb Gb Kb Vb Xb Yb
+13 Gi .. Q  K  G  H  N  m  O  D  wb Ob Ub Db Qb
+14 Qi Xi Vi Di Hi Mi Ni Ai Ei M  X  mb Hb Nb ■
+15 .. &i .. .. Wi .. W  █  .. &  _  Mb Wb ■  &b  
+#  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+
+# Special Characters/Ligatures (overides for above)
+# Case Position | Glyph | style modifier
+# http://www.fileformat.info/info/charset/UTF-8/list.htm
+# Common: fl = ﬂ ffi = ﬃ fi = ﬁ ff = ﬀ AE = Æ CE = Œ
+A5 ﬂ i
+A6 ﬁ i
+L7 ﬀ
+M7 ﬁ
+A8 ﬀ i
+A11 ﬃ i
+B13 ﬃ
+O14 ﬃ b
+C15 Œ i
+D15 Æ i
+F15 Æ
+I15 Œ
+N15 Æ b
+
+# Unit Shift Positions (for 16x17 cases)
+# These should be labeled like:
+# _ A5
