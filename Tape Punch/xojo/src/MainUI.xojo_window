@@ -128,11 +128,20 @@ Begin DesktopWindow MainUI
    Begin SerialConnection PunchConnection
       Baud            =   8
       Bits            =   3
+      BytesAvailable  =   0
+      BytesLeftToSend =   0
+      ClearToSend     =   False
       CTS             =   False
+      DataCarrierDetect=   False
+      DataSetReady    =   False
+      DataTerminalReady=   False
       DTR             =   False
+      Handle          =   0
       Index           =   -2147483648
       LockedInPosition=   False
       Parity          =   0
+      RequestToSend   =   False
+      RingIndicator   =   False
       Scope           =   0
       StopBit         =   0
       TabPanelIndex   =   0
@@ -354,6 +363,7 @@ Begin DesktopWindow MainUI
          Top             =   99
          Transparent     =   False
          Underline       =   False
+         Value           =   False
          Visible         =   True
          VisualState     =   0
          Width           =   100
@@ -384,6 +394,7 @@ Begin DesktopWindow MainUI
          Top             =   133
          Transparent     =   False
          Underline       =   False
+         Value           =   False
          Visible         =   True
          VisualState     =   0
          Width           =   118
@@ -456,6 +467,7 @@ Begin DesktopWindow MainUI
          Top             =   165
          Transparent     =   False
          Underline       =   False
+         Value           =   False
          Visible         =   True
          VisualState     =   1
          Width           =   100
@@ -486,6 +498,7 @@ Begin DesktopWindow MainUI
          Top             =   197
          Transparent     =   False
          Underline       =   False
+         Value           =   False
          Visible         =   True
          VisualState     =   1
          Width           =   100
@@ -533,8 +546,10 @@ Begin DesktopWindow MainUI
          Width           =   80
       End
       Begin DesktopBevelButton StopButton
+         Active          =   False
          AllowAutoDeactivate=   True
          AllowFocus      =   True
+         AllowTabStop    =   False
          BackgroundColor =   &cFF000300
          BevelStyle      =   5
          Bold            =   False
@@ -563,6 +578,7 @@ Begin DesktopWindow MainUI
          LockRight       =   False
          LockTop         =   True
          MenuStyle       =   0
+         PanelIndex      =   0
          Scope           =   0
          TabIndex        =   11
          TabPanelIndex   =   0
@@ -575,6 +591,10 @@ Begin DesktopWindow MainUI
          Value           =   False
          Visible         =   True
          Width           =   24
+         _mIndex         =   0
+         _mInitialParent =   ""
+         _mName          =   ""
+         _mPanelIndex    =   0
       End
    End
    Begin DesktopGroupBox PunchTests
@@ -798,12 +818,15 @@ Begin DesktopWindow MainUI
       End
    End
    Begin Thread sendTapeData
+      DebugIdentifier =   ""
       Index           =   -2147483648
       LockedInPosition=   False
       Priority        =   5
       Scope           =   0
       StackSize       =   0
       TabPanelIndex   =   0
+      ThreadID        =   0
+      ThreadState     =   0
    End
 End
 #tag EndDesktopWindow
@@ -1141,14 +1164,20 @@ End
 		  
 		  //punch the lines in the file
 		  dim t as TextInputStream = TextInputStream.Open(tapefile)
-		  dim line as string
-		  while not t.eof
-		    line = t.ReadLine + EndOfLine
-		    me.AddUserInterfaceUpdate("SerialData":line)
-		    PunchConnection.Write(line)
-		    PunchConnection.Flush
-		    me.YieldToNext
-		  wend
+		  'dim line as string
+		  'while not t.eof
+		  'line = t.ReadLine
+		  'me.AddUserInterfaceUpdate("SerialData":line)
+		  'PunchConnection.Write(line + nl)
+		  '//PunchConnection.Flush
+		  'me.YieldToNext
+		  'wend
+		  
+		  //well so much for the thread - this just wreaks it...
+		  //need to spend some more time on getting this to work
+		  PunchConnection.write(t.readall)
+		  
+		  PunchConnection.Flush
 		  
 		  if footer_prop <> "" then
 		    //advance the tape
@@ -1434,11 +1463,35 @@ End
 		EditorType=""
 	#tag EndViewProperty
 	#tag ViewProperty
-		Name="tapefile"
+		Name="footer_prop"
 		Visible=false
 		Group="Behavior"
 		InitialValue=""
-		Type="Integer"
-		EditorType=""
+		Type="string"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="forwarddelay_prop"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="string"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="header_prop"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="string"
+		EditorType="MultiLineEditor"
+	#tag EndViewProperty
+	#tag ViewProperty
+		Name="punchdelay_prop"
+		Visible=false
+		Group="Behavior"
+		InitialValue=""
+		Type="string"
+		EditorType="MultiLineEditor"
 	#tag EndViewProperty
 #tag EndViewBehavior
