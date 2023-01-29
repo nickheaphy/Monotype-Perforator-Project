@@ -387,6 +387,8 @@ function latest_version($file_name){
                             db_row_id = jsonData.db_row_id;
                             // disable the save button after save successful
                             document.getElementById("savemca").disabled = true;
+                        } else {
+                            window.alert("There was an error saving the matrix case: " + jsonData.db_error)
                         }
                     }
                 };
