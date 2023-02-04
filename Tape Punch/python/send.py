@@ -13,8 +13,10 @@ def main(file_to_print):
     # open the file
     with open(file_to_print) as fp:
         # increase the punch speed
-        ser.write("**p30".encode('utf-8'))
-        ser.write("**d100".encode('utf-8'))
+        # post punch delay
+        ser.write("**p120".encode('utf-8'))
+        # forward delay
+        ser.write("**d120".encode('utf-8'))
         # test the punches
         ser.write("**t4".encode('utf-8'))
         # advance the tape 400mm

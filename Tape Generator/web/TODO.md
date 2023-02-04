@@ -30,3 +30,40 @@ Decision that needs to be made: Are we going to store the MCA as a JSON file in 
 ## Paragraph Tape Generator
 
 * Need to improve the logic about handing of em-dash in the text to avoid hyphenation of words that contain em dash. Need to think about the logic as to how to handle this (have tried splitting the words on the em-dash but this still sometimes runs into the problem of trying to hyphenate)
+
+## Language
+
+Loosely Based on LaTex.
+
+```
+\textrm{} - Roman font family (this is actually the default)
+\textbf{} - Bold face
+\textsc{} - Small Caps
+\textit{} - Italics
+\hspace{l} - horizontal space of l length
+hyphen
+en-dash --
+em-dash ---
+\begin{center}
+\begin{flushleft}
+\begin{flushright}
+\begin{justify}
+\\ - slash
+\{
+\}
+```
+
+Parsing logic: Character by character, when hit a \ go into a command mode. Command mode ends
+when hit either a } or a space. Though also need to potentially handle having a command inside
+another command (eg could have both `\textrm{\textbf{Bold roman text}}`) and need to handle the \\ and \{
+
+Need to divide the text up into 
+
+- characters (with a matrix position (based on character style) and width)
+- words (the space is the delimiter, words have a width based on characters)
+  - Note: words can be hyphenated over multiple lines
+- line (based on the galley width only a specific number of words can fit, also need to know the justification for the line)
+- paragraph (just a collection of lines - may actually not need this?)
+
+
+

@@ -104,7 +104,38 @@ $res = $db->query('SELECT id, mcaname, mcacase FROM mca');
                     <textarea class="form-control" id="texttoconvert" rows="6">TODO - this still needs to be developed...</textarea>
                 </div>
                         -->
+                
+                <div class="mb-3 mt-3">
+                    <label for="texttoconvert2" class="form-label">Text to Punch</label>
+                    <textarea class="form-control" id="texttoconvert2" rows="12">
+\begin{center}This is centered.
 
+\begin{justify}This is a paragraph of text. Paragraphs consist of multiple lines of text
+and new lines. Lines might have newline characters, however these don't cause the paragraph
+to actually end. To end a paragraph you need to leave a line that only contains a carrage return.
+
+So this would be a new paragraph. Because we have not changed the justification, this will still
+be fully justified. The width of the paragraph is determined by the galley width rather than by
+anything in this textbox.
+
+\begin{flushleft}This paragraph would be flush left. You can also do things like make words \textbf{bold}
+but you can also make individual \textbf{c}haracte\textbf{c}s bold too. I do wonder if I should have used
+markdown for the formating - but markdown does not have commands for justification or \textsc{small caps}, while
+LaTEX does, so while I am not planning on implementing all of the LaTEX features (who am I kidding, it will
+only be a tiny subset) I ended up picking this over Markdown (though I could have just made up some extra
+commands - sigh, no right or wrong answer...)
+
+I guess that any line that does send the \\begin{} should cause the start of a new paragraph. This means
+that rather than the blank line as a paragraph separator, you could just start each line with a \\begin{}
+\begin{flushleft}These
+\begin{flushleft}are
+\begin{flushleft}words
+\begin{flushleft}on
+\begin{flushleft}newlines
+
+                    </textarea>
+                </div>
+                
                 <div class="mb-3 mt-3">
                     <label class="col-form-label" for="sampletext">Sample Text:</label>
                     <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="sampletext">

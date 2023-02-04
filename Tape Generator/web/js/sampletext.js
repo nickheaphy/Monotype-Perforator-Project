@@ -5,6 +5,13 @@ var sampletext = [
         "paragraphs" : ["the quick brown fox jumped over the lazy dog"]
     },
     {
+        "title" : "Car Quote",
+        "author" : "George Carlin",
+        "paragraphs" : [`Anybody going slower than you is an idiot, 
+        and anyone going faster than you is a maniac.... - George Carlin`
+        ]
+    },
+    {
         "title" : "Fahrenheit 451",
         "author" : " Ray Bradbury",
         "paragraphs": [`It was a pleasure to burn. It was a special pleasure to see things eaten, to see things blackened and
