@@ -159,7 +159,7 @@ function latest_version($file_name){
                     </div>
                     <div class="col">
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="setwidth" placeholder="Set Width" value="<?php echo $mcasetwidth; ?>" disabled>
+                            <input type="number" class="form-control" id="setwidth" placeholder="Set Width" value="<?php echo $mcasetwidth; ?>" disabled>
                             <label for="setwidth">Set Width</label>
                         </div>
                     </div>
