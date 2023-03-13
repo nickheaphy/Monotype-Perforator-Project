@@ -286,13 +286,17 @@ that rather than the blank line as a paragraph separator, you could just start e
             saveAs(blob, "tape.txt");
 
             //check for any tape errors
-            document.getElementById('tapeerror').style.display = "none";
+            var tapeerr = document.getElementById('tapeerror')
+            tapeerr.style.display = "none";
             var tapelines = tape.split("\n");
             for (var i=0; i<tapelines.length; i++) {
                 if (tapelines[i].charAt(0) == "!") {
                     //bugger, there was an error
-                    document.getElementById('tapeerror').style.display = "block";
-                    break;
+                    tapeerr.style.display = "block";
+                    para = document.createElement("p");
+                    node = document.createTextNode(tapelines[i]);
+                    para.appendChild(node)
+                    tapeerr.appendChild(para);
                 }
             }
         });
