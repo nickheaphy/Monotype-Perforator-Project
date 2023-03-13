@@ -75,18 +75,19 @@ function fount_generator(fount_string, galleywidth_mm, simplecase, style = "roma
             }
         }
 
-        // can we fit this character into the line?
-        if (usedline + charwidth < units_of_set_per_line) {
+        // can we fit this character into the line? Need to make sure there is enough
+        // room for a space
+        if (usedline + charwidth + LOWERLIMIT_SPACE < units_of_set_per_line) {
             // yes we can.
             tape += tape_draw(chardata[0].split("").concat([chardata[1]]),the_char);
-            usedline += charwidth
+            usedline += charwidth;
 
         } else {
             // pad out the left over line with spaces, we do need at least one
-            while (usedline < units_of_set_per_line) {
+            while ((usedline + LOWERLIMIT_SPACE) < units_of_set_per_line) {
                 tape += tape_draw(['S',sspace_column,sspace_row], "SPACE", "SSpace");
-                numspaces += 1
-                usedline += LOWERLIMIT_SPACE
+                numspaces += 1;
+                usedline += LOWERLIMIT_SPACE;
             }
             
             //cast the quads at the end of the line
