@@ -66,6 +66,8 @@ $res = $db->query('SELECT id, mcaname, mcacase FROM mca');
             <h4>Database Backup</h4>
             <p><a href="tools/downloadmca.php">Download</a> the MCA database as a JSON file</p>
 
+            <h4>Fount Generator</h4>
+            <p><a href="tools_fount.php">Generate</a> an entire case fount.</p>
 
 
 
