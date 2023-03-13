@@ -57,11 +57,11 @@ function galley_wordwidth(word, simplecase, style = "roman") {
  */
 function galley_justifyspaces(total_space_remaining, numspaces) {
 
-    console.log(`Justification - Unset Units: ${total_space_remaining}`);
+    console.log(`Justification - Unset Units: ${total_space_remaining}, ${numspaces} spaces`);
 
     let tape = "";
 
-    if (total_space_remaining > 0) {
+    if (total_space_remaining > 0 && numspaces > 0) {
         if (numspaces > 0) {
             var interword_space = total_space_remaining / numspaces;
         } else {
@@ -95,7 +95,7 @@ function galley_justifyspaces(total_space_remaining, numspaces) {
     } else {
         // 1/1 justification
         console.log("1/1 Justification");
-        tape += tape_draw(['0075', "1"], "0075", "1/1 justification");
+        tape += tape_draw(['0075', "1"], "0075", "1/1 justification - unset="+total_space_remaining+" spaces="+numspaces);
         tape += tape_draw(['0005','0075', "1"], "0005/0075", "1/1 justification")
     }
 
