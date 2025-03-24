@@ -352,30 +352,30 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
             }
 
             //handle some really basic HTML to change the word styles
-            // if (word.startsWith("<i>")) {
-            //     style = "italic";
-            //     word = word.slice(3);
-            // } else if (word.startsWith("<sc>")) {
-            //     style = "smallcap";
-            //     word = word.slice(4);
-            // } else if (word.startsWith("<r>")) {
-            //     style = "roman";
-            //     word = word.slice(3);
-            // }
+            if (word.startsWith("<i>")) {
+                style = "italic";
+                word = word.slice(3);
+            } else if (word.startsWith("<sc>")) {
+                style = "smallcap";
+                word = word.slice(4);
+            } else if (word.startsWith("<r>")) {
+                style = "roman";
+                word = word.slice(3);
+            }
 
-            // //we will need to return to the base style at the end of the word
-            // if (word.endsWith("</i>")) {
-            //     word = word.slice(0,-4);
-            // } else if (word.endsWith("</sc>")) {
-            //     word = word.slice(0,-5);
-            // } else if (word.endsWith("</r>")) {
-            //     word = word.slice(0,-4);
-            // }
+            //we will need to return to the base style at the end of the word
+            if (word.endsWith("</i>")) {
+                word = word.slice(0,-4);
+            } else if (word.endsWith("</sc>")) {
+                word = word.slice(0,-5);
+            } else if (word.endsWith("</r>")) {
+                word = word.slice(0,-4);
+            }
 
-            // //if user has forgotton to cap the small cap, fix it for them
-            // if (style == "smallcap") {
-            //     word = word.toUpperCase();
-            // }
+            //if user has forgotton to cap the small cap, fix it for them
+            if (style == "smallcap") {
+                word = word.toUpperCase();
+            }
 
             // loop though the word
             
@@ -603,7 +603,7 @@ function calculate_galley_width(lines, simplecase, style = "roman", pad = false)
     if (pad) {
         length += (4 * simplecase.special.padding[2])
     }
-    
+
     console.log("Length (units of set): " + length)
     //let units_of_set_per_line = linewidth * 12 * 18 / simplecase.special.setwidth
     length_picas = length * simplecase.special.setwidth / (12 * 18);
