@@ -95,6 +95,10 @@ $res = $db->query('SELECT id, mcaname, mcacase FROM mca');
                             <input class="form-check-input" type="checkbox" id="justify" checked>
                             <label class="form-check-label" for="justify">Justify Text</label>
                         </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="poetry">
+                            <label class="form-check-label" for="poetry">Poetry Mode</label>
+                        </div>
                     </div>
                 </div>
                 
@@ -108,31 +112,25 @@ $res = $db->query('SELECT id, mcaname, mcacase FROM mca');
                 <div class="mb-3 mt-3">
                     <label for="texttoconvert2" class="form-label">Text to Punch</label>
                     <textarea class="form-control" id="texttoconvert2" rows="12">
-\begin{center}This is centered.
-
-\begin{justify}This is a paragraph of text. Paragraphs consist of multiple lines of text
+This is a paragraph of text. Paragraphs consist of multiple lines of text
 and new lines. Lines might have newline characters, however these don't cause the paragraph
-to actually end. To end a paragraph you need to leave a line that only contains a carrage return.
+to actually end. To end a paragraph you need to leave a line that only contains a carriage return.
 
 So this would be a new paragraph. Because we have not changed the justification, this will still
-be fully justified. The width of the paragraph is determined by the galley width rather than by
+use the default justification. The width of the paragraph is determined by the galley width rather than by
 anything in this textbox.
 
-\begin{flushleft}This paragraph would be flush left. You can also do things like make words \textbf{bold}
-but you can also make individual \textbf{c}haracte\textbf{c}s bold too. I do wonder if I should have used
-markdown for the formating - but markdown does not have commands for justification or \textsc{small caps}, while
-LaTEX does, so while I am not planning on implementing all of the LaTEX features (who am I kidding, it will
-only be a tiny subset) I ended up picking this over Markdown (though I could have just made up some extra
-commands - sigh, no right or wrong answer...)
+&lt;lj&gt;This paragraph would be ragged right (left justify). You can also do things like make words &lt;i&gt;italic&lt;/i&gt;
+but at the moment you can't make individual characters. I do need to implement this as sometimes
+you might want to use &lt;sc&gt;small caps&lt;/sc&gt; but with normal roman characters at the beginning and end.
 
-I guess that any line that does send the \\begin{} should cause the start of a new paragraph. This means
-that rather than the blank line as a paragraph separator, you could just start each line with a \\begin{}
-\begin{flushleft}These
-\begin{flushleft}are
-\begin{flushleft}words
-\begin{flushleft}on
-\begin{flushleft}newlines
+Another new paragraph. This will reset back to the default justification.
 
+&lt;j&gt;You can force full justification using tags.
+
+Note, if you enable "Poetry Mode" then the justification will be ignored and the text will be left justified.
+The galley width will be ignored and the galley width will be calculated from the the longest line of text.
+New lines in the text will correspond to new lines on the galley.
                     </textarea>
                 </div>
                 
@@ -256,6 +254,12 @@ that rather than the blank line as a paragraph separator, you could just start e
         // event listener for selecting sample text
         var sampletextdropdown = document.getElementById("sampletext");
         sampletextdropdown.addEventListener("change", function(event) {
+            //copy the text into the textbox2
+            document.getElementById('texttoconvert2').value = "";
+            for (const para of sampletext[event.target.value].paragraphs) {
+                document.getElementById('texttoconvert2').value += para + "\n";
+            }
+            //document.getElementById('texttoconvert2').value = sampletext[event.target.value].paragraphs;
             check_and_enabled_generate_button();
         });
 
@@ -264,20 +268,31 @@ that rather than the blank line as a paragraph separator, you could just start e
         var generatetablebutton = document.getElementById("gobabygo");
         generatetablebutton.addEventListener("click", function(event) {
 
-            var selectedsampletext_arraypos = document.getElementById('sampletext').value;
-            var texttoconvert = sampletext[selectedsampletext_arraypos].paragraphs;
-            var galleywidth_mm = document.getElementById('galleywidth').value;
             var padgalley = document.getElementById('padgalley').checked;
-            var hyptext = document.getElementById('allowhyphens').checked;
-            var justify = document.getElementById('justify').checked;
-
             var simplecase = mcatransform_simplecase(jsoncase);
+
+            //var selectedsampletext_arraypos = document.getElementById('sampletext').value;
+            //var texttoconvert = sampletext[selectedsampletext_arraypos].paragraphs;
+            if (document.getElementById('poetry').checked) {
+                // poetry mode, preformed text
+                var texttoconvert = document.getElementById('texttoconvert2').value.split("\n");
+                var galleywidth_mm = calculate_galley_width(texttoconvert, simplecase, "roman", padgalley);
+                var justify = false;
+                var hyptext = false;
+            } else {
+                var texttoconvert = document.getElementById('texttoconvert2').value.split("\n\n");
+                var galleywidth_mm = document.getElementById('galleywidth').value;
+                var hyptext = document.getElementById('allowhyphens').checked;
+                var justify = document.getElementById('justify').checked;
+            }
+
             console.log(texttoconvert);
             
             // add the initial information
             var mca_selected = document.getElementById("mca");
             var mca_text = mca_selected.options[mca_selected.selectedIndex].text;
-            tape = "MCA: " + mca_text + "\n\n";
+            tape = "MCA: " + mca_text + "\n";
+            tape += "Galley Width: " + galleywidth_mm + "mm\n\n";
             // send the initial 'stop casting' commands
             tape += stop_casting(simplecase);
             tape += paragraph_generator(texttoconvert, galleywidth_mm, simplecase, "roman", padgalley, hyptext, justify);
@@ -306,8 +321,9 @@ that rather than the blank line as a paragraph separator, you could just start e
             var genbutton = document.getElementById("gobabygo");
             console.log("Checking button")
             //things to check
-            var sampletext = document.getElementById('sampletext');
-            if (Object.keys(jsoncase).length !== 0 && sampletext.options[sampletext.selectedIndex].value != "-1" && document.getElementById('galleywidth').value != "") {
+            //var sampletext = document.getElementById('sampletext');
+            var texttoconvert = document.getElementById('texttoconvert2')
+            if (Object.keys(jsoncase).length !== 0 && texttoconvert.value != "" && document.getElementById('galleywidth').value != "") {
                 genbutton.disabled = false;
             } else {
                 genbutton.disabled = true;
