@@ -608,5 +608,6 @@ function calculate_galley_width(lines, simplecase, style = "roman", pad = false)
     //let units_of_set_per_line = linewidth * 12 * 18 / simplecase.special.setwidth
     length_picas = length * simplecase.special.setwidth / (12 * 18);
     console.log("Length (picas): " + length_picas)
-    return picas2mm(length_picas);
+    // add a fudge factory of 5mm...
+    return picas2mm(length_picas) + 5;
 }
