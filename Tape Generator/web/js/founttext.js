@@ -48,7 +48,9 @@ var founttext = [
                 "!".repeat(4+5) +
                 "?".repeat(6+5) +
                 "(".repeat(18+5) +
+                ")".repeat(18+5) +
                 "[".repeat(8+5) +
+                "]".repeat(8+5) +
                 "ﬀ".repeat(6+5) +
                 "ﬁ".repeat(8+5) +
                 "ﬂ".repeat(6+5) +
