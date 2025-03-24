@@ -198,7 +198,7 @@ function latest_version($file_name){
                         <label for="character" class="col-form-label">Character:</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="character" maxlength="1" autofocus>
-                            <button onClick="window.open('https://unicode-table.com/en/');" class="btn btn-outline-secondary" type="button" for="character">UniCode</button>
+                            <button onClick="window.open('https://symbl.cc/en/unicode-table/');" class="btn btn-outline-secondary" type="button" for="character">UniCode</button>
                         </div>
                         </div>
                         <div class="row">
