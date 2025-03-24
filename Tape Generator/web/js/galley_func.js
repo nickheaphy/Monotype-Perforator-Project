@@ -38,6 +38,10 @@ function galley_wordwidth(word, simplecase, style = "roman") {
         if (the_char == "-" && chardata[2] == null){
             chardata = simplecase["roman"]["-"] || [null, null, null];
         }
+        //special case for padding
+        if (the_char == "█") {
+            chardata = simplecase.special.padding || [null, null, null];
+        }
         if (chardata[2] != null) {
             width += chardata[2];
         } else {
@@ -77,7 +81,7 @@ function galley_justifyspaces(total_space_remaining, numspaces) {
         if (total_required_0005_steps + 53 <= 16 || total_required_0005_steps + 53 >= 240) {
             console.log("total_required_0005_steps: " + total_required_0005_steps)
             console.log("Error, can't justify this amount");
-            tape += "! Tape Error - can't justify " + total_required_0005_steps + " 0005 steps\n";
+            tape += "! Tape Error - can't justify " + total_required_0005_steps + " 0005 steps!\n";
             return tape;
         };
 
@@ -179,6 +183,9 @@ function galley_separator(simplecase, galleywidth_mm, pad = false) {
  */
 function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style = "roman", pad = false, hyphenatetext = false, justifytext = true) {
 
+    const initialstyle = style;
+    const initialjustification = justifytext;
+
     if (paragraph_array == undefined || paragraph_array == null || paragraph_array.length == 0) {
         console.log("paragraph_array Error");
         return "! Paragraph Error";
@@ -231,6 +238,9 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
         let wordwidth = 0;
 
         // clean up the paragraph
+        // replace all the &gt; and &lt; with the actual characters
+        paragraph = paragraph.replace(/&gt;/g, ">");
+        paragraph = paragraph.replace(/&lt;/g, "<");
         // remove all new lines and replace with a placeholder
         paragraph = paragraph.replace(/\r?\n|\r/g, "💩");
         console.log(paragraph);
@@ -239,6 +249,16 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
         console.log(paragraph);
         // replace the placeholder with a space
         paragraph = paragraph.replace(/💩/g, " ");
+        // set the justiification
+        if (paragraph.startsWith("<j>")) {
+            justifytext = true;
+            paragraph = paragraph.slice(3);
+        } else if (paragraph.startsWith("<lj>")) {
+            justifytext = false;
+            paragraph = paragraph.slice(4);
+        } else {
+            justifytext = initialjustification;
+        }
         console.log(paragraph);
 
 
@@ -249,12 +269,17 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
         // TODO - need better logic around how to split on text that contains em dash as the moby-dick
         // sample text with galley width 100mm exhibits problems where it hyphenates a word with an em-dash
 
-        console.log("Begin Paragraph")
+        console.log("Begin Paragraph: Justification = " + justifytext)
 
         let i = 0; // this is a pointer to the word we are up to
         while (i < words.length) {
+            
             var word = words[i]
-            console.log(word);
+
+            //store the full word as we will need to use this as it may contain command codes
+            var fullword = word
+
+            console.log(fullword);
             // need to ensure that the whole word will fit on the line
             // if there are already words in the line then ensure a space
             // is prepended
@@ -267,6 +292,33 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
             } else {
                 wordwidth = LOWERLIMIT_SPACE;
             }
+
+            //handle some really basic HTML to change the word styles
+            if (word.startsWith("<i>")) {
+                style = "italic";
+                word = word.slice(3);
+            } else if (word.startsWith("<sc>")) {
+                style = "smallcap";
+                word = word.slice(4);
+            } else if (word.startsWith("<r>")) {
+                style = "roman";
+                word = word.slice(3);
+            }
+
+            //we will need to return to the base style at the end of the word
+            if (word.endsWith("</i>")) {
+                word = word.slice(0,-4);
+            } else if (word.endsWith("</sc>")) {
+                word = word.slice(0,-5);
+            } else if (word.endsWith("</r>")) {
+                word = word.slice(0,-4);
+            }
+
+            //if user has forgotton to cap the small cap, fix it for them
+            if (style == "smallcap") {
+                word = word.toUpperCase();
+            }
+
 
             wordwidth += galley_wordwidth(word, simplecase, style);
 
@@ -286,6 +338,10 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
                     //special case for hyphen, revert to roman if not found
                     if (the_char == "-" && pos[2] == null){
                         pos = simplecase["roman"]["-"] || [null, null, null];
+                    }
+                    //special case for quads
+                    if (the_char == "█") {
+                        pos = simplecase.special.padding || [null, null, null];
                     }
                     if (pos[0] == null) {
                         missing_chars += the_char;
@@ -337,9 +393,17 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
             // TODO - what if the word is too long to fit on a line at all?
             } else {
                 // we need at least one justification space at the end for ragged right
+                tape += tape_draw(['S',sspace_column,sspace_row], "SPACE", "SSpace");
+                numspaces += 1
+                // TODO - Problem is that what about if a single justification space is too small?
+                // we might need a couple of spaces to allow them to expand enough to fill the line.
                 if (!justifytext) {
-                    tape += tape_draw(['S',sspace_column,sspace_row], "SPACE", "SSpace");
-                    numspaces += 1
+                    //this is a horrible hack
+                    console.log("Hack to add spaces for Ragged Right");
+                    while (galley_justifyspaces(units_of_set_per_line - usedline, numspaces).endsWith("!\n")) {
+                        tape += tape_draw(['S',sspace_column,sspace_row], "SPACE", "SSpace");
+                        numspaces += 1
+                    }
                 }
                 //cast the quads at the end of the line
                 if (pad) {
@@ -353,6 +417,11 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
                 numspaces = 0
                 // don't increment the word counter (so the current word
                 // will be processed again on the new line)
+            }
+
+            //do we need to revert the style?
+            if (new RegExp("<\/.+>$").test(fullword)) {
+                style = initialstyle
             }
         }
         
@@ -387,7 +456,7 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
             tape += galley_justifyspaces(units_of_set_per_line - usedline, numspaces);
         }
         if (missing_chars.length != 0) {
-            tape += `! Missing Chars from Paragraph: ${missing_chars.length} = "${missing_chars}"`;
+            tape += `! Missing Chars from Paragraph: ${missing_chars.length} = "${missing_chars}\n"`;
         }
     }
     return tape;
