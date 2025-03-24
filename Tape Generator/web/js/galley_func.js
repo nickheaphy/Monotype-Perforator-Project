@@ -21,6 +21,17 @@ function mm2picas(mm, pica = 0.1660) {
     return Math.round(mm/25.4/pica)
 }
 
+// ----------------------------------------------------------
+/**
+ * Convert pica to mm (default pica is 0.1660 (New British Pica)
+ * @param {number} pica - the mm length
+ * @param {number} picasize - the size of the pica (default 0.1660)
+ * @returns - number of picas
+ */
+function picas2mm(pica, picasize = 0.1660) {
+    return Math.round(pica * 25.4 * picasize)
+}
+
 
 // ----------------------------------------------------------
 /**
@@ -34,6 +45,53 @@ function galley_wordwidth(word, simplecase, style = "roman") {
     let width = 0;
     for (let the_char of word) {
         chardata = simplecase[style][the_char] || [null, null, null];
+        //special case for hyphen, revert to roman if not found
+        if (the_char == "-" && chardata[2] == null){
+            chardata = simplecase["roman"]["-"] || [null, null, null];
+        }
+        //special case for padding
+        if (the_char == "█") {
+            chardata = simplecase.special.padding || [null, null, null];
+        }
+        if (chardata[2] != null) {
+            width += chardata[2];
+        } else {
+            console.log(`Character ${the_char} not found - skipping....`);
+        }
+    }
+    return width;
+}
+
+// ----------------------------------------------------------
+/**
+ * Split up the word 
+ * If the word contains control characters, need to split this up
+ * into individual characters and relevant styles
+ * if "T<sc>est</sc>" then this would be split into 
+ * [['T','roman'],['e','smallcap'],['s','smallcap'],['t','smallcap']]
+ * @param {string} word 
+ * @returns {object}
+ */
+function splitupaword(word) {
+    //TODO - need to implement this
+
+    //Problem is that then need to reimplement all the hypernation
+    //code to support this too... sigh
+}
+
+// ----------------------------------------------------------
+/**
+ * Calculate the word width (excluding any spaces)
+ * In this case 'word' is an array of characters and styles
+ * something like [['A','roman'],['B','italic'],['C','smallcap']]
+ * @param {object} word 
+ * @param {object} simplecase 
+ * @returns {number}
+ */
+function galley_splitwordwidth(word, simplecase) {
+    let width = 0;
+    for (let the_char of word) {
+        chardata = simplecase[style[1]][the_char[0]] || [null, null, null];
         //special case for hyphen, revert to roman if not found
         if (the_char == "-" && chardata[2] == null){
             chardata = simplecase["roman"]["-"] || [null, null, null];
@@ -294,30 +352,33 @@ function paragraph_generator(paragraph_array, galleywidth_mm, simplecase, style 
             }
 
             //handle some really basic HTML to change the word styles
-            if (word.startsWith("<i>")) {
-                style = "italic";
-                word = word.slice(3);
-            } else if (word.startsWith("<sc>")) {
-                style = "smallcap";
-                word = word.slice(4);
-            } else if (word.startsWith("<r>")) {
-                style = "roman";
-                word = word.slice(3);
-            }
+            // if (word.startsWith("<i>")) {
+            //     style = "italic";
+            //     word = word.slice(3);
+            // } else if (word.startsWith("<sc>")) {
+            //     style = "smallcap";
+            //     word = word.slice(4);
+            // } else if (word.startsWith("<r>")) {
+            //     style = "roman";
+            //     word = word.slice(3);
+            // }
 
-            //we will need to return to the base style at the end of the word
-            if (word.endsWith("</i>")) {
-                word = word.slice(0,-4);
-            } else if (word.endsWith("</sc>")) {
-                word = word.slice(0,-5);
-            } else if (word.endsWith("</r>")) {
-                word = word.slice(0,-4);
-            }
+            // //we will need to return to the base style at the end of the word
+            // if (word.endsWith("</i>")) {
+            //     word = word.slice(0,-4);
+            // } else if (word.endsWith("</sc>")) {
+            //     word = word.slice(0,-5);
+            // } else if (word.endsWith("</r>")) {
+            //     word = word.slice(0,-4);
+            // }
 
-            //if user has forgotton to cap the small cap, fix it for them
-            if (style == "smallcap") {
-                word = word.toUpperCase();
-            }
+            // //if user has forgotton to cap the small cap, fix it for them
+            // if (style == "smallcap") {
+            //     word = word.toUpperCase();
+            // }
+
+            // loop though the word
+            
 
 
             wordwidth += galley_wordwidth(word, simplecase, style);
@@ -513,4 +574,39 @@ function _besthyphenation(wordlist, remainingspace, simplecase, style) {
     } else {
         return ["", wordlist[0]];
     }
+}
+
+// ----------------------------------------------------------
+/**
+ * When in poetry mode, calculate the width of the galley based on the longest
+ * line in the poem
+ * @param {array} lines - an array of the lines in the poem
+ * @returns 
+ */
+function calculate_galley_width(lines, simplecase, style = "roman", pad = false) {
+    let longestline = "";
+    for (let line of lines) {
+        if (line.length > longestline.length) {
+            longestline = line
+        }
+    }
+    console.log("Longest Line: " + longestline)
+
+    //Now how wide is the longest line?
+    let length = 0;
+    let words = longestline.trim().split(' ');
+    for (let i = 0; i < words.length; i++) {
+        length += galley_wordwidth(words[i], simplecase, style);
+        length += LOWERLIMIT_SPACE;
+    }
+
+    if (pad) {
+        length += (4 * simplecase.special.padding[2])
+    }
+    
+    console.log("Length (units of set): " + length)
+    //let units_of_set_per_line = linewidth * 12 * 18 / simplecase.special.setwidth
+    length_picas = length * simplecase.special.setwidth / (12 * 18);
+    console.log("Length (picas): " + length_picas)
+    return picas2mm(length_picas);
 }
